@@ -21,7 +21,21 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/samherniman/autocruller/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/samherniman/autocruller/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of autocruller is to ...
+Auto __ˈɔːtəʊ__ - [short for automobile, a car](https://en.wiktionary.org/wiki/auto)
+Cruller __ˈkrʌl ər__ [a pastry roll or bun](https://en.wiktionary.org/wiki/cruller)
+
+autocruller - car bun
+
+{autocruller} allows one to download, manipulate and visualize CO^2^ readings from the
+[indoorco2map.com](https://indoorco2map.com/?lat=51.16570&lng=10.45150&zoom=6.00) dataset. 
+
+Please support that project by contributing CO^2^ readings, reporting bugs, telling your friends and financially supporting it (if you feel inclined).
+
+## Carbon Dioxide is important, Y'all
+
+## Never used R before?
+
+Read [this](https://rstudio-education.github.io/hopr/starting.html#starting)
 
 ## Installation
 
@@ -32,27 +46,81 @@ You can install the development version of autocruller from [GitHub](https://git
 pak::pak("samherniman/autocruller")
 ```
 
-## Example
+## Get started
 
-This is a basic example which shows you how to solve a common problem:
+Download the latest data with `ac_get_co2()`
 
-```{r example}
+```{r getco2}
 library(autocruller)
-## basic example code
+
+ac_df <- ac_get_co2()
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+That will give you a dataframe with all the current CO^2^ measurements. 
 
-```{r cars}
-summary(cars)
+```{r glimpse}
+dplyr::glimpse(ac_df)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+If you want the co2arrays to be in long format, you can do this:
 
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
+```{r}
+ac_df_long <- tidyr::unnest_longer(ac_df, co2array) 
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+
+## Make a graph
+
+```{r eval=FALSE}
+pak::pak("tidyplots")
+```
+
+You can compare averages with the wide format data
+
+```{r}
+library(tidyplots)
+
+types_c <- c(
+  "arts_centre","events_centre", "cinema",
+  "social_facility", "theatre", "music_venue",
+  "music","nightclub" , "social_centre", "concert_hall"
+)
+ac_df |> 
+  dplyr::filter(osmtag %in% types_c) |> 
+tidyplot(
+         x = ventilation, 
+         y = ppmavg,
+         color = ppmavg) |> 
+  add_data_points_beeswarm(size = 3) |> 
+  adjust_y_axis(transform = "log2") |> 
+  adjust_size(width = NA, height = NA, unit = "cm") |> 
+  adjust_font(fontsize = 16) |> 
+  adjust_x_axis_title("Ventilation system on?") |> 
+  adjust_y_axis_title("CO2 ppm average") |> 
+  remove_legend() |> 
+  adjust_title("CO2 Averages at music venues") |> 
+  adjust_caption("Data from indoorCO2map.com")
+```
+
+And track things over time with the long format data
+
+```{r}
+ac_df_long |> 
+  dplyr::filter(.id == 127) |>
+  dplyr::mutate(
+    measurement_sequence = dplyr::row_number()
+  ) |> 
+tidyplot(
+         x = measurement_sequence, 
+         y = co2array,
+         color = co2array) |> 
+  add_data_points() |> 
+  adjust_size(width = NA, height = NA, unit = "cm") |>
+  adjust_font(fontsize = 16) |>
+  adjust_x_axis_title("Time") |> 
+  adjust_y_axis_title("CO2 ppm") |> 
+  remove_legend() |> 
+  adjust_title("CO2 measurements at recording 127") |> 
+  adjust_caption("Data from indoorCO2map.com")
+```
+

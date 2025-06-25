@@ -14,7 +14,7 @@ Get data from indoorco2map.org
 }
 \examples{
 \dontrun{
-ac_get_co2()
+ac_df <- ac_get_co2()
 }
 
 }

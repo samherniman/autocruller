@@ -5,7 +5,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' ac_get_co2()
+#' ac_df <- ac_get_co2()
 #' }
 #'
 ac_get_co2 <- function() {
@@ -21,9 +21,10 @@ ac_get_co2 <- function() {
     suppressWarnings()
 
   j_lst <- lapply(icm_response$measurements, jsonlite::fromJSON)
+  j_lst <- lapply(j_lst, co2_to_numeric)
   j_lst <- data.table::rbindlist(j_lst, idcol = TRUE)
 
-  result_df <- icm_response |>
+  ac_df <- icm_response |>
   dplyr::select(-measurements) |>
   dplyr::left_join(j_lst, by = dplyr::join_by(.id)) |>
     dplyr::mutate(
@@ -31,8 +32,23 @@ ac_get_co2 <- function() {
       date = stringr::str_sub(startTime, end = -4) |>
         as.numeric() |>
         as.POSIXct()
-      )
+    )
 
-  return(result_df)
+  return(ac_df)
 }
 
+#' Convert the co2 character array to a numeric list
+#'
+#' @param x a list containing measurements from json
+#'
+#' @returns list of co2 records
+#'
+co2_to_numeric <- function(x) {
+  x$co2array <-
+    x$co2array |>
+    stringr::str_split(";", simplify = TRUE) |>
+    as.numeric() |>
+    list()
+
+  return(x)
+}
