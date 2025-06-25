@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/samherniman/autocruller/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/samherniman/autocruller/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-Auto __ˈɔːtəʊ__ - [short for automobile, a car](https://en.wiktionary.org/wiki/auto)
+Auto __ˈɔːtəʊ__ - [short for automobile, a car](https://en.wiktionary.org/wiki/auto)  
 Cruller __ˈkrʌl ər__ [a pastry roll or bun](https://en.wiktionary.org/wiki/cruller)
 
 autocruller - car bun
@@ -32,6 +32,11 @@ autocruller - car bun
 Please support that project by contributing CO^2^ readings, reporting bugs, telling your friends and financially supporting it (if you feel inclined).
 
 ## Carbon Dioxide is important, Y'all
+
+There is a well documented relationship between indoor levels of CO^2^
+and the amount of ventilation in indoor environments. Buildings with high 
+indoor levels of CO^2^ have poor ventilation and are therefore more likely to be 
+vectors of airborne diseases (like [COVID-19](https://basiccovidfacts.com/), Measles, and Flu) and to trap indoor pollutants.  
 
 ## Never used R before?
 

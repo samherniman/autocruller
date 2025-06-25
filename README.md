@@ -13,8 +13,9 @@ status](https://www.r-pkg.org/badges/version/autocruller)](https://CRAN.R-projec
 <!-- badges: end -->
 
 Auto **ˈɔːtəʊ** - [short for automobile, a
-car](https://en.wiktionary.org/wiki/auto) Cruller **ˈkrʌl ər** [a pastry
-roll or bun](https://en.wiktionary.org/wiki/cruller)
+car](https://en.wiktionary.org/wiki/auto)  
+Cruller **ˈkrʌl ər** [a pastry roll or
+bun](https://en.wiktionary.org/wiki/cruller)
 
 autocruller - car bun
 
@@ -28,6 +29,13 @@ reporting bugs, telling your friends and financially supporting it (if
 you feel inclined).
 
 ## Carbon Dioxide is important, Y’all
+
+There is a well documented relationship between indoor levels of
+CO<sup>2</sup> and the amount of ventilation in indoor environments.
+Buildings with high indoor levels of CO<sup>2</sup> have poor
+ventilation and are therefore more likely to be vectors of airborne
+diseases (like [COVID-19](https://basiccovidfacts.com/), Measles, and
+Flu) and to trap indoor pollutants.
 
 ## Never used R before?
 
