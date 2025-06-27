@@ -18,4 +18,5 @@ Imports:
     dplyr,
     httr2,
     jsonlite,
+    sf,
     stringr

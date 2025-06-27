@@ -70,7 +70,7 @@ dplyr::glimpse(ac_df)
 If you want the co2arrays to be in long format, you can do this:
 
 ```{r}
-ac_df_long <- tidyr::unnest_longer(ac_df, co2array) 
+ac_df_long <- tidyr::unnest_longer(ac_df, co2array)
 ```
 
 
@@ -86,46 +86,47 @@ You can compare averages with the wide format data
 library(tidyplots)
 
 types_c <- c(
-  "arts_centre","events_centre", "cinema",
+  "arts_centre", "events_centre", "cinema",
   "social_facility", "theatre", "music_venue",
-  "music","nightclub" , "social_centre", "concert_hall"
+  "music", "nightclub", "social_centre", "concert_hall"
 )
-ac_df |> 
-  dplyr::filter(osmtag %in% types_c) |> 
-tidyplot(
-         x = ventilation, 
-         y = ppmavg,
-         color = ppmavg) |> 
-  add_data_points_beeswarm(size = 3) |> 
-  adjust_y_axis(transform = "log2") |> 
-  adjust_size(width = NA, height = NA, unit = "cm") |> 
-  adjust_font(fontsize = 16) |> 
-  adjust_x_axis_title("Ventilation system on?") |> 
-  adjust_y_axis_title("CO2 ppm average") |> 
-  remove_legend() |> 
-  adjust_title("CO2 Averages at music venues") |> 
+ac_df |>
+  dplyr::filter(osmtag %in% types_c) |>
+  tidyplot(
+    x = ventilation,
+    y = ppmavg,
+    color = ppmavg
+  ) |>
+  add_data_points_beeswarm(size = 3) |>
+  adjust_y_axis(transform = "log2") |>
+  adjust_size(width = NA, height = NA, unit = "cm") |>
+  adjust_font(fontsize = 16) |>
+  adjust_x_axis_title("Ventilation system on?") |>
+  adjust_y_axis_title("CO2 ppm average") |>
+  remove_legend() |>
+  adjust_title("CO2 Averages at music venues") |>
   adjust_caption("Data from indoorCO2map.com")
 ```
 
 And track things over time with the long format data
 
 ```{r}
-ac_df_long |> 
+ac_df_long |>
   dplyr::filter(.id == 127) |>
   dplyr::mutate(
     measurement_sequence = dplyr::row_number()
-  ) |> 
-tidyplot(
-         x = measurement_sequence, 
-         y = co2array,
-         color = co2array) |> 
-  add_data_points() |> 
+  ) |>
+  tidyplot(
+    x = measurement_sequence,
+    y = co2array,
+    color = co2array
+  ) |>
+  add_data_points() |>
   adjust_size(width = NA, height = NA, unit = "cm") |>
   adjust_font(fontsize = 16) |>
-  adjust_x_axis_title("Time") |> 
-  adjust_y_axis_title("CO2 ppm") |> 
-  remove_legend() |> 
-  adjust_title("CO2 measurements at recording 127") |> 
+  adjust_x_axis_title("Time") |>
+  adjust_y_axis_title("CO2 ppm") |>
+  remove_legend() |>
+  adjust_title("CO2 measurements at recording 127") |>
   adjust_caption("Data from indoorCO2map.com")
 ```
-

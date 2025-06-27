@@ -25,13 +25,17 @@ ac_get_co2 <- function() {
   j_lst <- data.table::rbindlist(j_lst, idcol = TRUE)
 
   ac_df <- icm_response |>
-  dplyr::select(-measurements) |>
-  dplyr::left_join(j_lst, by = dplyr::join_by(.id)) |>
+    dplyr::select(-measurements) |>
+    dplyr::left_join(j_lst, by = dplyr::join_by(.id)) |>
     dplyr::mutate(
       # remove the last few digits from the unix time because they are in milliseconds and not needed
       date = stringr::str_sub(startTime, end = -4) |>
         as.numeric() |>
         as.POSIXct()
+    ) |>
+    sf::st_as_sf(
+      coords = c("lon", "lat"),
+      crs = sf::st_crs(4326)
     )
 
   return(ac_df)
