@@ -14,11 +14,15 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports: 
+    archive,
     cli,
     data.table,
     dplyr,
     httr2,
     jsonlite,
+    lubridate,
     sf,
-    stringr
+    stringr,
+    tibble,
+    tidyr
 URL: https://samherniman.github.io/autocruller/

@@ -36,6 +36,14 @@ ac_get_co2_transit <- function() {
 #'
 #' @returns a dataframe
 json_to_df <- function(x) {
+  timestampArray <- 
+    co2Array <- 
+    longitudeArray <- 
+    latitudeArray <- 
+    startTime <- 
+    uid <- 
+    ppmAvg <- 
+    NULL
   x |> 
     dplyr::mutate(
       timestampArray = split_to_numeric(timestampArray) |> range01() |> paste(collapse = ";"),

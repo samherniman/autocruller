@@ -6,6 +6,9 @@
 \usage{
 ac_get_co2(x = "web")
 }
+\arguments{
+\item{x}{Character specifying which dataset to download one of c("web", "download", "transit")}
+}
 \value{
 A dataframe with up to date co2 measurements
 }

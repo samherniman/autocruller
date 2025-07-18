@@ -1,4 +1,6 @@
 #' Get data from indoorco2map.org
+#' 
+#' @param x Character specifying which dataset to download one of c("web", "download", "transit")
 #'
 #' @returns A dataframe with up to date co2 measurements
 #' @export

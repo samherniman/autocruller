@@ -14,7 +14,7 @@
 #' }
 #'
 ac_get_co2_web <- function() {
-  measurements <- .id <- startTime <- NULL
+  measurements <- .id <- startTime <- obs_number <- co2array <- NULL
 
   icm_response <-
     httr2::request("https://indoorco2map.com/chartdata/IndoorCO2MapData.json.gz") |>
@@ -38,6 +38,7 @@ ac_get_co2_web <- function() {
         as.numeric() |>
         as.POSIXct()
     ) |>
+    dplyr::select(-co2array) |> 
     sf::st_as_sf(
       coords = c("lon", "lat"),
       crs = sf::st_crs(4326)
@@ -53,7 +54,7 @@ ac_get_co2_web <- function() {
 #' @returns list of co2 records
 #'
 co2_to_numeric <- function(x) {
-  x$co2array <-
+  x$co2readings <-
     x$co2array |>
     stringr::str_split(";", simplify = TRUE) |>
     as.numeric() |>

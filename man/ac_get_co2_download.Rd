@@ -19,7 +19,7 @@ the website
 }
 \examples{
 
-#' \dontrun{
+\dontrun{
 ac_df <- ac_get_co2_download()
 }
 }

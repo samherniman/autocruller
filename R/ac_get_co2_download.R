@@ -12,10 +12,11 @@
 #' @export
 #' @examples
 #' 
-#' #' \dontrun{
+#' \dontrun{
 #' ac_df <- ac_get_co2_download()
 #' }
 ac_get_co2_download <- function() {
+  co2readingsAvg <- startOfMeasurement <- NULL
   icm_response <-
     archive::archive_extract(
       "https://indoorco2map.com/chartdata/IndoorCO2MapData.zip",
@@ -23,7 +24,7 @@ ac_get_co2_download <- function() {
     ) |> 
   jsonlite::fromJSON() |> 
   tibble::rowid_to_column("obs_number") |> 
-  dplyr::select(-co2readingsAvg) |> 
+  # dplyr::select(-co2readingsAvg) |> 
   dplyr::mutate(
     date = lubridate::as_datetime(startOfMeasurement),
     day = lubridate::date(date)
