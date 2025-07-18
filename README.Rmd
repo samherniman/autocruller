@@ -70,7 +70,7 @@ dplyr::glimpse(ac_df)
 If you want the co2arrays to be in long format, you can do this:
 
 ```{r}
-ac_df_long <- tidyr::unnest_longer(ac_df, co2array)
+ac_df_long <- ac_unnest_longer(ac_df, co2array)
 ```
 
 

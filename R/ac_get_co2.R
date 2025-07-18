@@ -5,40 +5,37 @@
 #'
 #' @examples
 #' \dontrun{
+#' # Get building data with one of three options
 #' ac_df <- ac_get_co2()
+#' ac_df <- ac_get_co2("web")
+#' ac_df <- ac_get_co2("download")
+#' 
+#' # Get transit data
+#' ac_df <- ac_get_co2("transit")
 #' }
 #'
-ac_get_co2 <- function() {
-  measurements <- .id <- startTime <- NULL
+ac_get_co2 <- function(x = "web") {
 
-  icm_response <-
-    httr2::request("https://indoorco2map.com/chartdata/IndoorCO2MapData.json.gz") |>
-    httr2::req_perform() |>
-    httr2::resp_body_json()
+  if (!(x %in% c("web", "download", "transit"))) {
+    cli::cli_abort(c(
+      "Error while getting co2 data:",
+      "x must be either \"web\", \"download\", or \"transit\"",
+      "if you want building data, set x to \"web\"",
+      "if you want transit data, set x to \"transit\""
+    ))
+  }
+  
+  if (x == "web") {
+    return(ac_get_co2_web())
+  }
 
-  icm_response <-
-    data.table::rbindlist(icm_response, idcol = TRUE) |>
-    suppressWarnings()
+  if (x == "download") {
+    return(ac_get_co2_download())
+  }
 
-  j_lst <- lapply(icm_response$measurements, jsonlite::fromJSON)
-  j_lst <- lapply(j_lst, co2_to_numeric)
-  j_lst <- data.table::rbindlist(j_lst, idcol = TRUE)
-
-  ac_df <- icm_response |>
-    dplyr::select(-measurements) |>
-    dplyr::left_join(j_lst, by = dplyr::join_by(.id)) |>
-    dplyr::mutate(
-      # remove the last few digits from the unix time because they are in milliseconds and not needed
-      date = stringr::str_sub(startTime, end = -4) |>
-        as.numeric() |>
-        as.POSIXct()
-    ) |>
-    sf::st_as_sf(
-      coords = c("lon", "lat"),
-      crs = sf::st_crs(4326)
-    )
-
-  return(ac_df)
+  if (x == "transit") {
+    return(ac_get_co2_transit())
+  }
 }
 
 #' Convert the co2 character array to a numeric list

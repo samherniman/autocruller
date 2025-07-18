@@ -4,7 +4,7 @@
 \alias{ac_get_co2}
 \title{Get data from indoorco2map.org}
 \usage{
-ac_get_co2()
+ac_get_co2(x = "web")
 }
 \value{
 A dataframe with up to date co2 measurements
@@ -14,7 +14,13 @@ Get data from indoorco2map.org
 }
 \examples{
 \dontrun{
+# Get building data with one of three options
 ac_df <- ac_get_co2()
+ac_df <- ac_get_co2("web")
+ac_df <- ac_get_co2("download")
+
+# Get transit data
+ac_df <- ac_get_co2("transit")
 }
 
 }

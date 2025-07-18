@@ -41,9 +41,11 @@ json_to_df <- function(x) {
       timestampArray = split_to_numeric(timestampArray) |> range01() |> paste(collapse = ";"),
       # mod_loess = list(train_loess(co2_vec = co2Array, time_vec = timestampArray)),
       co2Array = stringr::str_replace_all(co2Array, ";", ","),
-      longitudeArray = stringr::str_remove_all(longitudeArray, "(0;|0$)") |> stringr::str_replace_all(",", "\\.") |> 
+      longitudeArray = stringr::str_remove_all(longitudeArray, "(0;|0$)") |> 
+        stringr::str_replace_all(",", "\\.") |> 
         stringr::str_replace_all(";", ","),
-      latitudeArray = stringr::str_remove_all(latitudeArray, "(0;|0$)") |> stringr::str_replace_all(",", "\\.") |> 
+      latitudeArray = stringr::str_remove_all(latitudeArray, "(0;|0$)") |>
+        stringr::str_replace_all(",", "\\.") |> 
         stringr::str_replace_all(";", ","),
       date = stringr::str_sub(startTime, end = -4) |>
         as.numeric() |>
