@@ -24,7 +24,6 @@ ac_get_co2_download <- function() {
     ) |> 
   jsonlite::fromJSON() |> 
   tibble::rowid_to_column("obs_number") |> 
-  # dplyr::select(-co2readingsAvg) |> 
   dplyr::mutate(
     date = lubridate::as_datetime(startOfMeasurement),
     day = lubridate::date(date)
@@ -32,6 +31,9 @@ ac_get_co2_download <- function() {
     sf::st_as_sf(
       coords = c("longitude", "latitude"),
       crs = sf::st_crs(4326)
-    ) 
+    )
+  unlink('indoorco2mapData.json')
+
+  return(icm_response)
 }
 
