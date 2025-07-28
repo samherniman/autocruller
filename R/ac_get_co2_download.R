@@ -26,7 +26,14 @@ ac_get_co2_download <- function() {
   tibble::rowid_to_column("obs_number") |> 
   dplyr::mutate(
     date = lubridate::as_datetime(startOfMeasurement),
-    day = lubridate::date(date)
+    day = lubridate::date(date),
+    nwrtype = dplyr::case_match(
+      nwrtype,
+      "n" ~ "node",
+      "w" ~ "way",
+      "r" ~ "relation",
+      .ptype = factor(levels = c("node", "way", "relation"))
+    )
   ) |> 
     sf::st_as_sf(
       coords = c("longitude", "latitude"),
