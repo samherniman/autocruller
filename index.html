@@ -79,33 +79,37 @@ Cruller <strong>ˈkrʌl ər</strong> <a href="https://en.wiktionary.org/wiki/cru
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://samherniman.github.io/autocruller/">autocruller</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">ac_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ac_get_co2.html">ac_get_co2</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">ac_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ac_get_co2.html">ac_get_co2</a></span><span class="op">(</span><span class="st">"download"</span><span class="op">)</span></span></code></pre></div>
 <p>That will give you a dataframe with all the current CO<sup>2</sup> measurements.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">ac_df</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 10,660</span></span>
-<span><span class="co">#&gt; Columns: 18</span></span>
-<span><span class="co">#&gt; $ .id            &lt;int&gt; 1, 2, 3, 4, 4, 4, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 12,…</span></span>
-<span><span class="co">#&gt; $ combined_id    &lt;chr&gt; "n_10000066104", "n_10000660271", "n_10013427033", "n_1…</span></span>
-<span><span class="co">#&gt; $ osmtag         &lt;chr&gt; "supermarket", "fast_food", "supermarket", "greengrocer…</span></span>
-<span><span class="co">#&gt; $ osmkey         &lt;chr&gt; "shop", "amenity", "shop", "shop", "shop", "shop", "sho…</span></span>
-<span><span class="co">#&gt; $ countryid      &lt;chr&gt; "DEU", "USA", "DEU", "DEU", "DEU", "DEU", "DEU", "AUT",…</span></span>
-<span><span class="co">#&gt; $ countryname    &lt;chr&gt; "Germany", "United States of America", "Germany", "Germ…</span></span>
-<span><span class="co">#&gt; $ nuts3id        &lt;chr&gt; "DEA1B", "", "DE712", "DEA2C", "DEA2C", "DEA2C", "DEA2C…</span></span>
-<span><span class="co">#&gt; $ nwrname        &lt;chr&gt; "ALDI Süd", "Naya", "EDEKA Langanki", "Hofladen Schmitz…</span></span>
-<span><span class="co">#&gt; $ startTime      &lt;dbl&gt; 1.728744e+12, 1.746378e+12, 1.730192e+12, 1.730131e+12,…</span></span>
-<span><span class="co">#&gt; $ ppmavg         &lt;dbl&gt; 1795.4000, 613.8235, 579.3333, 608.6000, 484.6000, 832.…</span></span>
-<span><span class="co">#&gt; $ co2array       &lt;list&gt; &lt;1623, 1699, 1745, 1805, 1836, 1831, 1854, 1860, 1842,…</span></span>
-<span><span class="co">#&gt; $ ventilation    &lt;chr&gt; "False", "False", "False", "False", "False", "False", "…</span></span>
-<span><span class="co">#&gt; $ openwindows    &lt;chr&gt; "False", "False", "False", "False", "False", "False", "…</span></span>
-<span><span class="co">#&gt; $ occupancylevel &lt;chr&gt; "undefined", "undefined", "undefined", "undefined", "un…</span></span>
-<span><span class="co">#&gt; $ customnotes    &lt;chr&gt; "", "", "", "", "", "", "", "", "", "", "", "", "", "Ha…</span></span>
-<span><span class="co">#&gt; $ co2atlaskey    &lt;chr&gt; "shop", "dining_drinking", "shop", "other", "other", "o…</span></span>
-<span><span class="co">#&gt; $ date           &lt;dttm&gt; 2024-10-12 15:32:07, 2025-05-04 17:55:28, 2024-10-29 0…</span></span>
-<span><span class="co">#&gt; $ geometry       &lt;POINT [°]&gt; POINT (6.241554 51.5718), POINT (-73.99597 40.751…</span></span></code></pre></div>
-<p>If you want the co2arrays to be in long format, you can do this:</p>
+<span><span class="co">#&gt; Rows: 11,250</span></span>
+<span><span class="co">#&gt; Columns: 22</span></span>
+<span><span class="co">#&gt; $ obs_number         &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …</span></span>
+<span><span class="co">#&gt; $ nwrtype            &lt;chr&gt; "n", "n", "n", "w", "n", "n", "n", "w", "n", "w", "…</span></span>
+<span><span class="co">#&gt; $ nwrID              &lt;dbl&gt; 4436021034, 386028187, 1706619258, 248962888, 42717…</span></span>
+<span><span class="co">#&gt; $ name               &lt;chr&gt; "Konsum", "Konsum Leipzig", "Konsum", "REWE", "Kons…</span></span>
+<span><span class="co">#&gt; $ countryID          &lt;chr&gt; "DEU", "DEU", "DEU", "DEU", "DEU", "DEU", "DEU", "D…</span></span>
+<span><span class="co">#&gt; $ countryName        &lt;chr&gt; "Germany", "Germany", "Germany", "Germany", "German…</span></span>
+<span><span class="co">#&gt; $ nuts3ID            &lt;chr&gt; "DED51", "DED51", "DED52", "DED51", "DED51", "DED51…</span></span>
+<span><span class="co">#&gt; $ nuts3Name          &lt;chr&gt; "Leipzig, Kreisfreie Stadt", "Leipzig, Kreisfreie S…</span></span>
+<span><span class="co">#&gt; $ osmKey             &lt;chr&gt; "shop", "shop", "shop", "shop", "shop", "amenity", …</span></span>
+<span><span class="co">#&gt; $ osmTag             &lt;chr&gt; "supermarket", "supermarket", "supermarket", "super…</span></span>
+<span><span class="co">#&gt; $ brand              &lt;chr&gt; "Konsum Leipzig", "Konsum Leipzig", "Konsum Leipzig…</span></span>
+<span><span class="co">#&gt; $ startOfMeasurement &lt;chr&gt; "2024-05-15T17:10:19.811", "2024-05-16T10:27:41.828…</span></span>
+<span><span class="co">#&gt; $ windowsOpen        &lt;chr&gt; "False", "False", "True", "False", "False", "True",…</span></span>
+<span><span class="co">#&gt; $ ventilationSystem  &lt;chr&gt; "True", "True", "True", "True", "True", "False", "T…</span></span>
+<span><span class="co">#&gt; $ customNotes        &lt;chr&gt; "", "", "", "", "", "", "", "", "", "", "offenes kl…</span></span>
+<span><span class="co">#&gt; $ co2readings        &lt;list&gt; &lt;544, 573, 547, 533, 595, 601&gt;, &lt;680, 672, 640, 66…</span></span>
+<span><span class="co">#&gt; $ offset             &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span><span class="co">#&gt; $ interval           &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span></span>
+<span><span class="co">#&gt; $ co2readingsAvg     &lt;int&gt; 566, 661, 936, 1576, 724, 486, 726, 1475, 534, 1242…</span></span>
+<span><span class="co">#&gt; $ date               &lt;dttm&gt; 2024-05-15 17:10:19, 2024-05-16 10:27:41, 2024-05-…</span></span>
+<span><span class="co">#&gt; $ day                &lt;date&gt; 2024-05-15, 2024-05-16, 2024-05-17, 2024-04-15, 20…</span></span>
+<span><span class="co">#&gt; $ geometry           &lt;POINT [°]&gt; POINT (12.36603 51.34016), POINT (12.39733 51…</span></span></code></pre></div>
+<p>If you want the co2readingss to be in long format, you can do this:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ac_df_long</span> <span class="op">&lt;-</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest_longer.html" class="external-link">unnest_longer</a></span><span class="op">(</span><span class="va">ac_df</span>, <span class="va">co2array</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">ac_df_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ac_unnest_longer.html">ac_unnest_longer</a></span><span class="op">(</span><span class="va">ac_df</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="make-a-graph">Make a graph<a class="anchor" aria-label="anchor" href="#make-a-graph"></a>
@@ -122,11 +126,11 @@ Cruller <strong>ˈkrʌl ər</strong> <a href="https://en.wiktionary.org/wiki/cru
 <span>  <span class="st">"music"</span>, <span class="st">"nightclub"</span>, <span class="st">"social_centre"</span>, <span class="st">"concert_hall"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">ac_df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">osmtag</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">types_c</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">osmTag</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">types_c</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://jbengler.github.io/tidyplots/reference/tidyplot.html" class="external-link">tidyplot</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">ventilation</span>,</span>
-<span>    y <span class="op">=</span> <span class="va">ppmavg</span>,</span>
-<span>    color <span class="op">=</span> <span class="va">ppmavg</span></span>
+<span>    x <span class="op">=</span> <span class="va">ventilationSystem</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">co2readingsAvg</span>,</span>
+<span>    color <span class="op">=</span> <span class="va">co2readingsAvg</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://jbengler.github.io/tidyplots/reference/add_data_points.html" class="external-link">add_data_points_beeswarm</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://jbengler.github.io/tidyplots/reference/adjust_x_axis.html" class="external-link">adjust_y_axis</a></span><span class="op">(</span>transform <span class="op">=</span> <span class="st">"log2"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -141,14 +145,11 @@ Cruller <strong>ˈkrʌl ər</strong> <a href="https://en.wiktionary.org/wiki/cru
 <p>And track things over time with the long format data</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ac_df_long</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.id</span> <span class="op">==</span> <span class="fl">127</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    measurement_sequence <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/row_number.html" class="external-link">row_number</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">obs_number</span> <span class="op">==</span> <span class="fl">458</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://jbengler.github.io/tidyplots/reference/tidyplot.html" class="external-link">tidyplot</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">measurement_sequence</span>,</span>
-<span>    y <span class="op">=</span> <span class="va">co2array</span>,</span>
-<span>    color <span class="op">=</span> <span class="va">co2array</span></span>
+<span>    x <span class="op">=</span> <span class="va">reading_index</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">co2readings</span>,</span>
+<span>    color <span class="op">=</span> <span class="va">co2readings</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://jbengler.github.io/tidyplots/reference/add_data_points.html" class="external-link">add_data_points</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://jbengler.github.io/tidyplots/reference/adjust_size.html" class="external-link">adjust_size</a></span><span class="op">(</span>width <span class="op">=</span> <span class="cn">NA</span>, height <span class="op">=</span> <span class="cn">NA</span>, unit <span class="op">=</span> <span class="st">"cm"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -156,7 +157,7 @@ Cruller <strong>ˈkrʌl ər</strong> <a href="https://en.wiktionary.org/wiki/cru
 <span>  <span class="fu"><a href="https://jbengler.github.io/tidyplots/reference/adjust_title.html" class="external-link">adjust_x_axis_title</a></span><span class="op">(</span><span class="st">"Time"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://jbengler.github.io/tidyplots/reference/adjust_title.html" class="external-link">adjust_y_axis_title</a></span><span class="op">(</span><span class="st">"CO2 ppm"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://jbengler.github.io/tidyplots/reference/remove_legend.html" class="external-link">remove_legend</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://jbengler.github.io/tidyplots/reference/adjust_title.html" class="external-link">adjust_title</a></span><span class="op">(</span><span class="st">"CO2 measurements at recording 127"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://jbengler.github.io/tidyplots/reference/adjust_title.html" class="external-link">adjust_title</a></span><span class="op">(</span><span class="st">"CO2 measurements at recording 458"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://jbengler.github.io/tidyplots/reference/adjust_title.html" class="external-link">adjust_caption</a></span><span class="op">(</span><span class="st">"Data from indoorCO2map.com"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
 </div>
