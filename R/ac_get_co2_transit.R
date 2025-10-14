@@ -8,68 +8,71 @@
 #' ac_df <- ac_get_co2_transit()
 #' }
 ac_get_co2_transit <- function() {
+  co2Array <- NULL
     icm_response <-
       httr2::request("https://rkhby3mvq3.execute-api.eu-central-1.amazonaws.com/GetTransportCO2Data") |>
       httr2::req_perform() |>
-      httr2::resp_body_json() |> 
-    unlist() |> 
+      httr2::resp_body_json() |>
+    unlist() |>
     lapply(jsonlite::fromJSON)
 
-  j_df <- do.call(rbind, icm_response) |> 
-    tibble::rowid_to_column("uid") 
+  j_df <- do.call(rbind, icm_response) |>
+    tibble::rowid_to_column("uid")
 
   j_df <- lapply(1:nrow(j_df), \(x) json_to_df(j_df[x,]))
-  j_df <- 
+  j_df <-
     do.call(rbind, j_df) |>
     sf::st_as_sf(
-      coords = c("long_first", "lat_first"), 
+      coords = c("long_first", "lat_first"),
       crs = sf::st_crs(4326)
     ) |>
-    sf::st_make_valid() 
+    sf::st_make_valid() |>
+    dplyr::mutate(co2Array = as.numeric(co2Array))
 
   return(j_df)
 }
 
 #' Turn a co2 json into a dataframe
 #'
-#' @param x A json 
+#' @param x A json
 #'
 #' @returns a dataframe
 json_to_df <- function(x) {
-  timestampArray <- 
-    co2Array <- 
-    longitudeArray <- 
-    latitudeArray <- 
-    startTime <- 
-    uid <- 
-    ppmAvg <- 
+  timestampArray <-
+    co2Array <-
+    longitudeArray <-
+    latitudeArray <-
+    startTime <-
+    uid <-
+    ppmAvg <-
     NULL
-  x |> 
+  x |>
     dplyr::mutate(
       timestampArray = split_to_numeric(timestampArray) |> range01() |> paste(collapse = ";"),
       # mod_loess = list(train_loess(co2_vec = co2Array, time_vec = timestampArray)),
+      # co2Array = list(split_to_numeric(co2Array)),
       co2Array = stringr::str_replace_all(co2Array, ";", ","),
-      longitudeArray = stringr::str_remove_all(longitudeArray, "(0;|0$)") |> 
-        stringr::str_replace_all(",", "\\.") |> 
-        stringr::str_replace_all(";", ","),
+      longitudeArray = stringr::str_remove_all(longitudeArray, "(0;|0$)") |>
+        stringr::str_replace_all(",", "\\.") |>
+        stringr::str_replace_all(";", ",") ,
       latitudeArray = stringr::str_remove_all(latitudeArray, "(0;|0$)") |>
-        stringr::str_replace_all(",", "\\.") |> 
+        stringr::str_replace_all(",", "\\.") |>
         stringr::str_replace_all(";", ","),
       date = stringr::str_sub(startTime, end = -4) |>
         as.numeric() |>
         as.POSIXct()
-    ) |> 
-    tidyr::separate_longer_delim(cols = c(co2Array), delim = ",") |> 
-    dplyr::distinct() |> 
+    ) |>
+    tidyr::separate_longer_delim(cols = c(co2Array), delim = ",") |>
+    dplyr::distinct() |>
     dplyr::mutate(
       long_first = stringr::str_split_i(longitudeArray, ",", 1) |> as.numeric(),
       lat_first = stringr::str_split_i(latitudeArray, ",", 1) |> as.numeric()
-    ) |> 
-    # sf::st_as_sf(coords = c("long_first", "lat_first"), crs = sf::st_crs(4326)) |> 
-    dplyr::group_by(uid) |> 
-    tibble::rowid_to_column("tsa") |> 
-    dplyr::select(-ppmAvg) |> 
-    tidyr::drop_na() 
+    ) |>
+    # sf::st_as_sf(coords = c("long_first", "lat_first"), crs = sf::st_crs(4326)) |>
+    dplyr::group_by(uid) |>
+    tibble::rowid_to_column("tsa") |>
+    dplyr::select(-ppmAvg) |>
+    tidyr::drop_na()
 }
 
 #' Create a vector of values evenly spaced between 0 and 1
@@ -86,8 +89,8 @@ range01 <- function(x, ...){(x - min(x, ...)) / (max(x, ...) - min(x, ...))}
 #'
 #' @returns a numeric vector
 split_to_numeric <- function(x) {
-  x |> 
+  x |>
     strsplit(split = ";") |>
-    unlist() |> 
+    unlist() |>
     as.numeric()
 }

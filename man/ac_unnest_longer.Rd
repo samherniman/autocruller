@@ -16,6 +16,8 @@ a dataframe in long format
 Unnest a co2 df list-column into rows
 }
 \examples{
-ac_df <- ac_get_co2("download") |> 
+\dontrun{
+ac_df <- ac_get_co2("download") |>
 ac_unnest_longer()
+}
 }
