@@ -34,11 +34,13 @@ ac_get_co2_web <- function() {
 
   ac_df <- j_lst |>
     dplyr::left_join(icm_response, by = dplyr::join_by(obs_number)) |>
+    # tibble::rowid_to_column("obs_number") |>
     dplyr::mutate(
       # remove the last few digits from the unix time because they are in milliseconds and not needed
       date = stringr::str_sub(startTime, end = -4) |>
         as.numeric() |>
-        as.POSIXct()
+        as.POSIXct(),
+      obs_number = dplyr::row_number()
       ) |>
     sf::st_as_sf(
       coords = c("lon", "lat"),
