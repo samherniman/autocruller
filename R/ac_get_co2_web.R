@@ -39,12 +39,18 @@ ac_get_co2_web <- function() {
       date = stringr::str_sub(startTime, end = -4) |>
         as.numeric() |>
         as.POSIXct()
-    ) |>
-    dplyr::select(-co2array) |>
+      ) |>
     sf::st_as_sf(
       coords = c("lon", "lat"),
       crs = sf::st_crs(4326)
-    )
+    ) |>
+    dplyr::rowwise() |>
+    dplyr::mutate(
+      co2readings = stringr::str_split(co2array, ";", simplify = TRUE) |>
+                    as.numeric() |>
+                    list()
+      ) |>
+    dplyr::select(-co2array)
 
   return(ac_df)
 }
