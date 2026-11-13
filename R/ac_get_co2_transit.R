@@ -7,29 +7,34 @@
 #' \dontrun{
 #' ac_df <- ac_get_co2_transit()
 #' }
-ac_get_co2_transit <- function() {
-  co2Array <- NULL
-    icm_response <-
-      httr2::request("https://rkhby3mvq3.execute-api.eu-central-1.amazonaws.com/GetTransportCO2Data") |>
-      httr2::req_perform() |>
-      httr2::resp_body_json() |>
-    unlist() |>
-    lapply(jsonlite::fromJSON)
-
-  j_df <- do.call(rbind, icm_response) |>
-    tibble::rowid_to_column("uid")
-
-  j_df <- lapply(1:nrow(j_df), \(x) json_to_df(j_df[x,]))
+ac_get_co2_transit <- function(transit_url = "https://indoorco2map.com/chartdata/IndoorCO2MapTransitData.json") {
+  # co2Array <- NULL
   j_df <-
-    do.call(rbind, j_df) |>
-    sf::st_as_sf(
-      coords = c("long_first", "lat_first"),
-      crs = sf::st_crs(4326)
-    ) |>
-    sf::st_make_valid() |>
-    dplyr::mutate(co2Array = as.numeric(co2Array))
+      transit_url |>
+      jsonlite::fromJSON() |>
+      dplyr::rowwise() |>
+      dplyr::mutate(
+        gpsLongitudes = list(c(originLongitude, unlist(gpsLongitudes), destinationLongitude)),
+        gpsLatitudes = list(c(originLatitude, unlist(gpsLatitudes), destinationLatitude)),
+      )
+
+
+  # j_df <- icm_response |>
+  #   tibble::rowid_to_column("uid") |>
+  #   tidyr::unnest(co2readings)
 
   return(j_df)
+}
+
+ac_make_transit_spatial <- function(x) {
+  gpsLongitudes <- gpsLatitudes <- NULL
+  x |>
+  dplyr::mutate(
+  geometry = sf::st_sfc(
+    ac_make_linestring(gpsLongitudes, gpsLatitudes), crs = "4326"
+  )
+  ) |>
+  sf::st_as_sf(crs = 4326)
 }
 
 #' Turn a co2 json into a dataframe
