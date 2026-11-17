@@ -4,7 +4,12 @@
 \alias{ac_get_co2_transit}
 \title{Get transit data from indoorco2map.org}
 \usage{
-ac_get_co2_transit()
+ac_get_co2_transit(
+  transit_url = "https://indoorco2map.com/chartdata/IndoorCO2MapTransitData.json"
+)
+}
+\arguments{
+\item{transit_url}{URL to request transit data from the default should work for now}
 }
 \value{
 A dataframe with up to date co2 transit measurements

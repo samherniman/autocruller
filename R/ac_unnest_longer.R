@@ -11,8 +11,11 @@
 #' ac_unnest_longer()
 #' }
 ac_unnest_longer <- function(x) {
-  co2readings <- obs_number <- offset <- interval <- reading_index <- NULL
-  x_df <- x |> tidyr::unnest_longer(co2readings)
+  co2readings <- obs_number <- offset <- interval <- reading_index <- measurementID <- NULL
+
+  x_df <- x |>
+    dplyr::rename(obs_number = measurementID) |>
+    tidyr::unnest_longer(co2readings)
 
   if (all(c("offset", "interval") %in% names(x))) {
     x_df <- x_df |>

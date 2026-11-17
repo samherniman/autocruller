@@ -2,7 +2,7 @@
 % Please edit documentation in R/ac_get_co2_transit.R
 \name{json_to_df}
 \alias{json_to_df}
-\title{Turn a co2 json into a dataframe}
+\title{Turn a CO2 json into a dataframe}
 \usage{
 json_to_df(x)
 }
@@ -13,5 +13,5 @@ json_to_df(x)
 a dataframe
 }
 \description{
-Turn a co2 json into a dataframe
+Turn a CO2 json into a dataframe
 }

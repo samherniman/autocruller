@@ -1,5 +1,7 @@
 #' Get transit data from indoorco2map.org
 #'
+#' @param transit_url URL to request transit data from the default should work for now
+#'
 #' @returns A dataframe with up to date co2 transit measurements
 #'
 #' @export
@@ -7,32 +9,63 @@
 #' \dontrun{
 #' ac_df <- ac_get_co2_transit()
 #' }
-ac_get_co2_transit <- function() {
-  co2Array <- NULL
-    icm_response <-
-      httr2::request("https://rkhby3mvq3.execute-api.eu-central-1.amazonaws.com/GetTransportCO2Data") |>
-      httr2::req_perform() |>
-      httr2::resp_body_json() |>
-    unlist() |>
-    lapply(jsonlite::fromJSON)
-
-  j_df <- do.call(rbind, icm_response) |>
-    tibble::rowid_to_column("uid")
-
-  j_df <- lapply(1:nrow(j_df), \(x) json_to_df(j_df[x,]))
+ac_get_co2_transit <- function(transit_url = "https://indoorco2map.com/chartdata/IndoorCO2MapTransitData.json") {
+  originLongitude <-
+    gpsLongitudes <-
+    destinationLongitude <-
+    originLatitude <-
+    gpsLatitudes <-
+    destinationLatitude <-
+    startOfMeasurement <-
+    sensorType <-
+    NULL
   j_df <-
-    do.call(rbind, j_df) |>
-    sf::st_as_sf(
-      coords = c("long_first", "lat_first"),
-      crs = sf::st_crs(4326)
-    ) |>
-    sf::st_make_valid() |>
-    dplyr::mutate(co2Array = as.numeric(co2Array))
+      transit_url |>
+      jsonlite::fromJSON() |>
+      dplyr::rowwise() |>
+      dplyr::mutate(
+        gpsLongitudes = list(c(originLongitude, unlist(gpsLongitudes), destinationLongitude)),
+        gpsLatitudes = list(c(originLatitude, unlist(gpsLatitudes), destinationLatitude)),
+        date = lubridate::ymd_hms(startOfMeasurement),
+        sensorType = as.factor(sensorType)
+      )
 
   return(j_df)
 }
 
-#' Turn a co2 json into a dataframe
+#' Turn transit measurements into an sf spatial dataframe
+#'
+#' @param x A dataframe from ac_get_co2_transit()
+#' @param ... Parameters passed to ac_make_linestring
+#'
+#' @returns sf dataframe
+#' @export
+#'
+#' @description
+#' Turns the GPS locations, origin, and destination points into sf linestrings.
+#' Also does some cleaning to remove points at 0, 0 and points that are more than
+#' 100 km from the nearest other points. This function is pretty slow. I recommend
+#' that you use it every time you get transit measurements, but it can be skipped
+#' if you want to save time. The linestrings are stored in the `geometry` column
+#'
+#' @examples
+#' \dontrun{
+#' ac_get_co2_transit() |>
+#'   ac_make_transit_spatial()
+#' }
+ac_make_transit_spatial <- function(x, ...) {
+  gpsLongitudes <- gpsLatitudes <-  NULL
+  x |>
+  dplyr::rowwise() |>
+  dplyr::mutate(
+  geometry = sf::st_sfc(
+    ac_make_linestring(gpsLongitudes, gpsLatitudes, ...), crs = "4326"
+  )
+  ) |>
+  sf::st_as_sf(crs = 4326)
+}
+
+#' Turn a CO2 json into a dataframe
 #'
 #' @param x A json
 #'
