@@ -1,6 +1,6 @@
-# Turn a co2 json into a dataframe
+# Turn a CO2 json into a dataframe
 
-Turn a co2 json into a dataframe
+Turn a CO2 json into a dataframe
 
 ## Usage
 

@@ -36,6 +36,7 @@ You can install the development version of autocruller from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("samherniman/autocruller")
 ```
@@ -46,6 +47,7 @@ Download the latest data with
 [`ac_get_co2()`](https://samherniman.github.io/autocruller/reference/ac_get_co2.md)
 
 ``` r
+
 library(autocruller)
 
 ac_df <- ac_get_co2("download")
@@ -54,6 +56,7 @@ ac_df <- ac_get_co2("download")
 That will give you a dataframe with all the current CO² measurements.
 
 ``` r
+
 dplyr::glimpse(ac_df)
 #> Rows: 11,250
 #> Columns: 22
@@ -84,18 +87,21 @@ dplyr::glimpse(ac_df)
 If you want the co2readingss to be in long format, you can do this:
 
 ``` r
+
 ac_df_long <- ac_unnest_longer(ac_df)
 ```
 
 ## Make a graph
 
 ``` r
+
 pak::pak("tidyplots")
 ```
 
 You can compare averages with the wide format data
 
 ``` r
+
 library(tidyplots)
 
 types_c <- c(
@@ -126,6 +132,7 @@ ac_df |>
 And track things over time with the long format data
 
 ``` r
+
 ac_df_long |>
   dplyr::filter(obs_number == 458) |>
   tidyplot(

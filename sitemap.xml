@@ -9,9 +9,12 @@
 <url><loc>https://samherniman.github.io/autocruller/reference/ac_get_co2_download.html</loc></url>
 <url><loc>https://samherniman.github.io/autocruller/reference/ac_get_co2_transit.html</loc></url>
 <url><loc>https://samherniman.github.io/autocruller/reference/ac_get_co2_web.html</loc></url>
+<url><loc>https://samherniman.github.io/autocruller/reference/ac_make_linestring.html</loc></url>
+<url><loc>https://samherniman.github.io/autocruller/reference/ac_make_transit_spatial.html</loc></url>
 <url><loc>https://samherniman.github.io/autocruller/reference/ac_unnest_longer.html</loc></url>
 <url><loc>https://samherniman.github.io/autocruller/reference/co2_to_numeric.html</loc></url>
 <url><loc>https://samherniman.github.io/autocruller/reference/index.html</loc></url>
+<url><loc>https://samherniman.github.io/autocruller/reference/is_na_or_zero.html</loc></url>
 <url><loc>https://samherniman.github.io/autocruller/reference/json_to_df.html</loc></url>
 <url><loc>https://samherniman.github.io/autocruller/reference/range01.html</loc></url>
 <url><loc>https://samherniman.github.io/autocruller/reference/split_to_numeric.html</loc></url>
